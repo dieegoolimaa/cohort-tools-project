@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const PORT = 5005;
 
 // STATIC DATA
@@ -15,6 +16,17 @@ const app = express();
 // MIDDLEWARE
 // Research Team - Set up CORS middleware here:
 // ...
+app.use(cors({
+  origin: function (origin, callback) {
+    // Regex to check if the origin is from http://localhost with port from 5100 to 5299
+    const portRegex = /^http:\/\/localhost:(517\d|518\d)$/;
+    if (!origin || portRegex.test(origin)) {
+      callback(null, true);  // Origin is allowed
+    } else {
+      callback(new Error('Not allowed by CORS'));  // Origin is not allowed
+    }
+  }
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static("public"));
