@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const Cohort = require("./models/Cohort.model");
+const Student = require("./models/Student.model");
 
 const PORT = process.env.PORT;
 
@@ -58,12 +59,12 @@ app.get("/docs", (req, res) => {
 
 //Get all Cohorts
 app.get("/cohorts", async (req, res) => {
-  const cohorts = await Cohort.find().populate("cohort");
+  const cohorts = await Cohort.find();
   res.json({ message: "All Good", data: cohorts });
 });
 
 //  POST  /cohort route
-app.post("/cohort", async (req, res) => {
+app.post("/cohorts", async (req, res) => {
   const cohortSlug = req.body.cohortName;
 
   Cohort.create({
@@ -123,12 +124,12 @@ app.delete("/cohorts/:id", async (req, res) => {
 
 //Get all Students
 app.get("/students", async (req, res) => {
-  const students = await Student.find().populate("student");
+  const students = await Student.find().populate("cohort");
   res.json({ message: "All Good", data: students });
 });
 
 //  POST  /student route
-app.post("/student", async (req, res) => {
+app.post("/students", async (req, res) => {
   Cohort.create({
     firstName: req.body.firstName,
 
