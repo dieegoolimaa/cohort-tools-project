@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const Cohort = require("./models/Cohort.model");
+const Student = require("./models/Student.model");
 
 const PORT = process.env.PORT;
 
@@ -58,7 +59,7 @@ app.get("/docs", (req, res) => {
 
 //Get all Cohorts
 app.get("/cohorts", async (req, res) => {
-  const cohorts = await Cohort.find().populate("cohort");
+  const cohorts = await Cohort.find();
   res.json({ message: "All Good", data: cohorts });
 });
 
@@ -89,8 +90,8 @@ app.post("/cohort", async (req, res) => {
 });
 
 //  GET  /cohorts/:id route
-app.get("/cohorts/:id", async (req, res) => {
-  Cohort.findById(req.params.id)
+app.get("/cohorts/:cohortId", async (req, res) => {
+  Cohort.findById(req.params.cohortId)
     .then((cohort) => {
       res.status(200).json(cohort);
     })
@@ -100,8 +101,8 @@ app.get("/cohorts/:id", async (req, res) => {
 });
 
 //  PUT  /cohorts/:id route
-app.put("/cohorts/:id", async (req, res) => {
-  Cohort.findByIdAndUpdate(req.params.id, req.body, { new: true })
+app.put("/cohorts/:cohortId", async (req, res) => {
+  Cohort.findByIdAndUpdate(req.params.cohortId, req.body, { new: true })
     .then((updatedCohort) => {
       res.status(200).json(updatedCohort);
     })
@@ -111,8 +112,8 @@ app.put("/cohorts/:id", async (req, res) => {
 });
 
 //  DELETE  /cohorts/:id route
-app.delete("/cohorts/:id", async (req, res) => {
-  Cohort.findByIdAndDelete(req.params.id)
+app.delete("/cohorts/:cohortId", async (req, res) => {
+  Cohort.findByIdAndDelete(req.params.cohortId)
     .then(() => {
       res.status(200).send();
     })
@@ -123,7 +124,7 @@ app.delete("/cohorts/:id", async (req, res) => {
 
 //Get all Students
 app.get("/students", async (req, res) => {
-  const students = await Student.find().populate("student");
+  const students = await Student.find().populate("cohort");
   res.json({ message: "All Good", data: students });
 });
 
@@ -153,8 +154,8 @@ app.post("/student", async (req, res) => {
 });
 
 //  GET  /students/:id route
-app.get("/students/:id", async (req, res) => {
-  Cohort.findById(req.params.id)
+app.get("/students/:studentId", async (req, res) => {
+  Cohort.findById(req.params.studentId)
     .then((student) => {
       res.status(200).json(student);
     })
@@ -163,9 +164,16 @@ app.get("/students/:id", async (req, res) => {
     });
 });
 
+// GET all Students for a specific Cohort
+app.get("/students/cohorts/:cohortId", async (req, res) => {
+  const cohortId = req.params.cohortId;
+  const students = await Student.find({ cohort: cohortId }).populate("cohort");
+  res.json({ message: "All Good", data: students });
+});
+
 //  PUT  /students/:id route
-app.put("/students/:id", async (req, res) => {
-  Cohort.findByIdAndUpdate(req.params.id, req.body, { new: true })
+app.put("/students/:studentId", async (req, res) => {
+  Cohort.findByIdAndUpdate(req.params.studentId, req.body, { new: true })
     .then((updatedStudent) => {
       res.status(200).json(updatedStudent);
     })
@@ -177,8 +185,8 @@ app.put("/students/:id", async (req, res) => {
 });
 
 //  DELETE  /students/:id route
-app.delete("/students/:id", async (req, res) => {
-  Cohort.findByIdAndDelete(req.params.id)
+app.delete("/students/:studentId", async (req, res) => {
+  Cohort.findByIdAndDelete(req.params.studentId)
     .then(() => {
       res.status(200).send();
     })
