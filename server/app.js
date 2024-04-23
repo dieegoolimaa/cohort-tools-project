@@ -1,5 +1,4 @@
-
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
@@ -8,19 +7,7 @@ const cors = require("cors");
 
 const Cohort = require("./models/Cohort.model");
 
-const PORT =  process.env.PORT;
-
-
-
-// STATIC DATA
-// Devs Team - Import the provided files with JSON data of students and cohorts here:
-mongoose.connect("mongodb://127.0.0.1:27017")
-
-  .then(x => console.log(`Connected to Database: "${x.connections[0].name}"`))
-
-  .catch(err => console.error("Error connecting to MongoDB", err));
-
- 
+const PORT = process.env.PORT;
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
@@ -69,10 +56,9 @@ app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
-
 //Get all Cohorts
 app.get("/cohorts", async (req, res) => {
-  const cohorts = await Cohort.find();
+  const cohorts = await Cohort.find().populate("cohort");
   res.json({ message: "All Good", data: cohorts });
 });
 
@@ -137,7 +123,7 @@ app.delete("/cohorts/:id", async (req, res) => {
 
 //Get all Students
 app.get("/students", async (req, res) => {
-  const students = await Student.find();
+  const students = await Student.find().populate("student");
   res.json({ message: "All Good", data: students });
 });
 
@@ -202,5 +188,3 @@ app.delete("/students/:id", async (req, res) => {
         .json({ message: "Error while deleting a single student" });
     });
 });
-
-
