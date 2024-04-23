@@ -58,7 +58,7 @@ app.get("/docs", (req, res) => {
 
 //Get all Cohorts
 app.get("/cohorts", async (req, res) => {
-  const cohorts = await Cohort.find();
+  const cohorts = await Cohort.find().populate("cohort");
   res.json({ message: "All Good", data: cohorts });
 });
 
@@ -123,7 +123,7 @@ app.delete("/cohorts/:id", async (req, res) => {
 
 //Get all Students
 app.get("/students", async (req, res) => {
-  const students = await Student.find();
+  const students = await Student.find().populate("student");
   res.json({ message: "All Good", data: students });
 });
 
