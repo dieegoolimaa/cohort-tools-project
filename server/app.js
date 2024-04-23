@@ -166,9 +166,20 @@ app.get("/students/:studentId", async (req, res) => {
 
 // GET all Students for a specific Cohort
 app.get("/students/cohorts/:cohortId", async (req, res) => {
-  const cohortId = req.params.cohortId;
-  const students = await Student.find({ cohort: cohortId }).populate("cohort");
-  res.json({ message: "All Good", data: students });
+  try {
+    const cohortId = req.params.cohortId;
+    // Assuming 'cohort' is a field in your Student schema that references the Cohort model
+    const students = await Student.find({ cohort: cohortId }).populate(
+      "cohort"
+    );
+    res.json({ message: "All Good", data: students });
+  } catch (err) {
+    console.error("Error while fetching students for cohort:", err);
+    res.status(500).json({
+      message: "Error while fetching students for cohort",
+      error: err.message,
+    });
+  }
 });
 
 //  PUT  /students/:id route
