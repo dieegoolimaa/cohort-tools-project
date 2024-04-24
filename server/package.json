@@ -4,7 +4,7 @@
   "description": "ExpressJS API for the Cohort Tools app",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
