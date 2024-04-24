@@ -30,3 +30,6 @@ app.get("/docs", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port http://localhost:${PORT}`);
 });
+
+// ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
+require("./error-handling")(app);
