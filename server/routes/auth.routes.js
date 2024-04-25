@@ -1,7 +1,7 @@
 const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { isAuthenticated } = require("../middlewares/route-guard.middleware");
+const { isAuthenticated } = require("../middleware/route-guard.middleware");
 
 const router = require("express").Router();
 
@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
       // Check if the password is correct
       if (bcrypt.compareSync(req.body.password, potentialUser.passwordHash)) {
         // User has the right credentials
-
+        console.log(process.env.TOKEN_SECRET);
         const authToken = jwt.sign(
           {
             userId: potentialUser._id,
