@@ -35,7 +35,9 @@ router.post("/login", async (req, res) => {
   console.log(req.body);
   // Check if we have a user with this username
   try {
-    const potentialUser = await User.findOne({ username: req.body.username });
+    const potentialUser = await User.findOne({
+      username: req.body.username.toLowerCase(),
+    });
     if (potentialUser) {
       // Check if the password is correct
       if (bcrypt.compareSync(req.body.password, potentialUser.passwordHash)) {

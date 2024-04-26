@@ -14,6 +14,11 @@ const cohortSchema = new Schema({
   leadTeacher: { type: String, required: true },
   totalHours: { type: Number, required: true },
   createdDate: { type: Date, default: Date.now },
+  createdBy: {
+    type: Types.ObjectId,
+    ref: "User",
+  },
+  timestamps: true,
 });
 
 // CREATE A MODEL

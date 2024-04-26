@@ -1,3 +1,4 @@
+const { isAuthenticated } = require("../middleware/route-guard.middleware");
 const Student = require("../models/Student.model");
 const router = require("express").Router();
 
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 // POST /students route
-router.post("/", async (req, res) => {
+router.post("/", isAuthenticated, async (req, res) => {
   try {
     const newStudent = await Student.create(req.body);
     res.status(201).json(newStudent);

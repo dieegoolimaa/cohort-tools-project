@@ -15,6 +15,11 @@ const studentSchema = new Schema({
   image: { type: String },
 
   cohort: { type: mongoose.Schema.Types.ObjectId, ref: "Cohort" },
+  createdBy: {
+    type: Types.ObjectId,
+    ref: "User",
+  },
+  timestamps: true,
 
   //projects: { type: [mongoose.Schema.Types.ObjectId], ref: "Project" },
 });
