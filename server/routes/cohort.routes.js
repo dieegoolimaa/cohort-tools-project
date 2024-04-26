@@ -5,7 +5,7 @@ const { createCohortSlug } = require("../utils/Utils");
 //Get all Cohorts
 router.get("/", async (req, res) => {
   const cohorts = await Cohort.find();
-  res.json({ message: "All Good", data: cohorts });
+  res.json(cohorts);
 });
 
 //  POST  /cohort route

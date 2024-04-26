@@ -19,7 +19,8 @@ router.post("/signup", async (req, res) => {
   // Create a new User
   try {
     const newUser = await User.create({
-      username: req.body.username,
+      username: req.body.name,
+      email: req.body.email,
       passwordHash,
     });
 
@@ -36,7 +37,7 @@ router.post("/login", async (req, res) => {
   // Check if we have a user with this username
   try {
     const potentialUser = await User.findOne({
-      username: req.body.username.toLowerCase(),
+      email: req.body.email.toLowerCase(),
     });
     if (potentialUser) {
       // Check if the password is correct
@@ -80,7 +81,7 @@ router.post("/login", async (req, res) => {
 
 // Verify
 router.get("/verify", /* exampleMiddleware, */ isAuthenticated, (req, res) => {
-  res.json({ message: "Hello", data: req.tokenPayload });
+  res.json(req.tokenPayload);
 });
 
 module.exports = router;

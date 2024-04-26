@@ -6,7 +6,7 @@ const router = require("express").Router();
 router.get("/", async (req, res) => {
   try {
     const students = await Student.find().populate("cohort");
-    res.json({ message: "All Good", data: students });
+    res.status(200).json(students);
   } catch (err) {
     res
       .status(500)

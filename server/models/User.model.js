@@ -11,10 +11,11 @@ const userSchema = new Schema(
       lowercase: true,
     },
     passwordHash: { type: String, required: true },
+    email: { type: String, required: true },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
-    timestamps: true,
+    timestamp: true,
   }
 );
 
